@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  WHY: Maven project descriptor for the Kanban Spring Boot backend.
+  Declares Java 21, Spring Boot 3.x, Web, JPA, and PostgreSQL so the
+  REST API can persist cards and serve the React frontend.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- WHY: Inherit Spring Boot BOM for consistent dependency versions -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.4</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.kanban</groupId>
+  <artifactId>kanban-backend</artifactId>
+  <version>1.0.0</version>
+  <name>kanban-backend</name>
+  <description>Simple Kanban board REST API</description>
+
+  <properties>
+    <!-- WHY: Match the OpenJDK 21 installed on this box -->
+    <java.version>21</java.version>
+  </properties>
+
+  <dependencies>
+    <!-- WHY: Expose REST endpoints under /api/cards -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- WHY: Map Card entities to PostgreSQL tables with minimal boilerplate -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- WHY: JDBC driver required to talk to the local PostgreSQL kanban database -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- WHY: Bean validation for request bodies (title required, etc.) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!-- WHY: Unit/integration test support for smoke checks -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- WHY: Package as executable jar and enable spring-boot:run -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

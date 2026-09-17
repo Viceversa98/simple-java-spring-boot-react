@@ -1,0 +1,30 @@
+# WHY: Central Spring Boot config — points the app at the local kanban Postgres DB
+# and lets JPA create/update tables so we can iterate without Flyway for this demo.
+server:
+  port: 8080
+
+spring:
+  application:
+    name: kanban-backend
+
+  datasource:
+    # WHY: Matches the role/db created locally (user=kanban password=kanban)
+    url: jdbc:postgresql://localhost:5432/kanban
+    username: kanban
+    password: kanban
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # WHY: Auto-create/update schema from entities — fine for a simple demo app
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        # WHY: Align Hibernate dialect with PostgreSQL 17 on this box
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+logging:
+  level:
+    com.kanban: INFO
